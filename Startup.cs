@@ -12,6 +12,7 @@ using RESTapi_application.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services;
 
 namespace RESTapi_application
 {
@@ -34,6 +35,13 @@ namespace RESTapi_application
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            //http client with api key
+            var client = new System.Net.Http.HttpClient();
+            client.DefaultRequestHeaders.Add("ApiKey", "xrbv1myVu2ZBoHqEBe1odwlIqXVnBkd6YFibJk2q7kVjxrNRuzZpUbGdBJOKlBO");
+            //dependency injection for api client
+            services.AddScoped<IClient>(provider =>
+            new Client("https://meetmeapi20200626171452.azurewebsites.net", client));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
